@@ -1,7 +1,30 @@
 {
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    
+    "allowJs": true,
+    /* Bundler */
+    "moduleResolution": "bundler",
+    "isolatedModules": true, // 독립적 모듈로 컴파일
+    "noEmit": true, // TypeScript의 .js 파일 생성 방지
+    "allowImportingTsExtensions": true, // .ts나 .tsx 확장자 import 허용
+    "jsx": "react-jsx", // JSX 트랜스파일 방식
+    
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "skipLibCheck": true,
+    
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    }
+  },
+  "include": ["src"],
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }
