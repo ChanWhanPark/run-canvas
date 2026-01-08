@@ -4,9 +4,11 @@ import { Point } from 'ol/geom';
 import * as React from 'react';
 
 import { BASE_CENTER, coordinate, DEFAULT_SOURCE_SRID, DEFAULT_SRID } from '@/common/base-type';
+import { useOlInteraction } from '@/hooks/useOlInteraction';
 // hooks
 import { useOlMap } from '@/hooks/useOlMap';
 import { useOlMapControl } from '@/hooks/useOlMapControl';
+import { useOlVectorLayers } from '@/hooks/useOlVectorLayers';
 
 interface MapViewerProps {
   sourceSRID?: string;
@@ -20,8 +22,18 @@ const MapViewer = React.forwardRef<HTMLDivElement, MapViewerProps>((props, ref) 
   // useRef
   const ref_canvas = React.useRef<HTMLDivElement | null>(null);
   const { mapRef } = useOlMap(ref_canvas);
-  useOlMapControl({ mapRef });
-
+  const { drawVectorSourceRef, cleanDrawLayer } = useOlVectorLayers({ mapRef });
+  const { setDrawLineActive } = useOlInteraction({
+    mapRef,
+    drawVectorSource: drawVectorSourceRef,
+  });
+  useOlMapControl({
+    mapRef,
+    onCleanGeometry: cleanDrawLayer,
+    onToggleNewLine: (active) => {
+      setDrawLineActive(active);
+    },
+  });
   const moveCenter = React.useCallback(
     (coord: coordinate, srid: string) => {
       if (!mapRef.current) return;
