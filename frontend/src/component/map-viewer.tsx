@@ -4,11 +4,11 @@ import { Point } from 'ol/geom';
 import * as React from 'react';
 
 import { BASE_CENTER, coordinate, DEFAULT_SOURCE_SRID, DEFAULT_SRID } from '@/common/base-type';
-import { useOlInteraction } from '@/hooks/useOlInteraction';
 // hooks
-import { useOlMap } from '@/hooks/useOlMap';
-import { useOlMapControl } from '@/hooks/useOlMapControl';
-import { useOlVectorLayers } from '@/hooks/useOlVectorLayers';
+import { useOlInteraction } from '@/hooks/ol/useOlInteraction';
+import { useOlMap } from '@/hooks/ol/useOlMap';
+import { useOlMapControl } from '@/hooks/ol/useOlMapControl';
+import { useOlVectorLayers } from '@/hooks/ol/useOlVectorLayers';
 
 interface MapViewerProps {
   sourceSRID?: string;
@@ -58,7 +58,11 @@ const MapViewer = React.forwardRef<HTMLDivElement, MapViewerProps>((props, ref) 
 
   React.useImperativeHandle(ref, () => ref_canvas.current as HTMLDivElement);
 
-  return <div ref={ref_canvas} id="map-viewer" style={{ width: '100%', height: '100%' }} />;
+  return (
+    <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
+      <div ref={ref_canvas} id="map-viewer" style={{ width: '100%', height: '100%' }} />
+    </div>
+  );
 });
 
 export default MapViewer;
